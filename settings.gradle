@@ -1,9 +1,3 @@
-include ':camera'
 include ':scrollerlayout'
-include ':room'
-include ':horizontalscrollview'
-include ':koin'
-include ':viewmodelcoroutine'
-include ':kotlin2'
 include ':app'
 rootProject.name = "Scope"

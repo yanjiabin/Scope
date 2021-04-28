@@ -4,6 +4,7 @@ import android.content.Context
 import android.util.AttributeSet
 import android.util.Log
 import android.view.LayoutInflater
+import android.view.MotionEvent
 import android.widget.FrameLayout
 import android.widget.TextView
 
@@ -19,7 +20,7 @@ class ItemView:FrameLayout {
         defStyleAttr
     ){
         val layoutInflater = LayoutInflater.from(getContext())
-        layoutInflater.inflate(R.layout.item_layout,this)
+        layoutInflater.inflate(R.layout.item_layout,this,true)
 
         textView = findViewById<TextView>(R.id.tv)
     }
@@ -27,11 +28,5 @@ class ItemView:FrameLayout {
 
     fun setTextContent(content:Int){
         textView?.text = content.toString()
-    }
-
-    override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
-        super.onMeasure(widthMeasureSpec, heightMeasureSpec)
-        Log.e(">>>net","childViewWidth:${measuredWidth}")
-        Log.e(">>>net","childViewHeight:${measuredHeight}")
     }
 }
