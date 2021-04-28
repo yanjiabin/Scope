@@ -1,3 +1,4 @@
+include ':loadingview'
 include ':scrollerlayout'
 include ':app'
 rootProject.name = "Scope"
