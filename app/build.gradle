@@ -4,7 +4,8 @@ plugins {
     id 'kotlin-android-extensions'
     id 'kotlin-kapt'
 }
-
+// CameraX core library using the camera2 implementation
+def camerax_version = "1.0.0-rc04"
 android {
     compileSdkVersion 30
     buildToolsVersion "30.0.2"
@@ -63,4 +64,20 @@ dependencies {
 
 
     implementation "androidx.lifecycle:lifecycle-extensions:2.2.0-alpha02"
+    //glide
+    implementation 'com.github.bumptech.glide:glide:4.5.0'
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.5.0'
+
+
+
+    // The following line is optional, as the core library is included indirectly by camera-camera2
+    implementation "androidx.camera:camera-core:${camerax_version}"
+    implementation "androidx.camera:camera-camera2:${camerax_version}"
+    // If you want to additionally use the CameraX Lifecycle library
+    implementation "androidx.camera:camera-lifecycle:${camerax_version}"
+    // If you want to additionally use the CameraX View class
+    implementation "androidx.camera:camera-view:1.0.0-alpha23"
+    // If you want to additionally use the CameraX Extensions library
+    implementation "androidx.camera:camera-extensions:1.0.0-alpha23"
+
 }

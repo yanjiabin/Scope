@@ -1,5 +1,6 @@
 package com.asa.scrollerlayout
 
+import android.graphics.ImageDecoder
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 

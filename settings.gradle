@@ -1,3 +1,5 @@
+include ':bubbleview'
+include ':statusmode'
 include ':loadingview'
 include ':scrollerlayout'
 include ':app'

@@ -15,7 +15,6 @@ class LoadingView:View {
 
     companion object{
         val PLAY_STATE_PLAYING = 1
-        val PLAY_STATE_WAIT = 2
     }
 
     private val paint = Paint()
@@ -24,7 +23,6 @@ class LoadingView:View {
     private var columnarBottomColor = 0
     private var diameter = 0
 
-    private var dotRadius = 0
     private var dotType = 0
     private var dotCount = 0
 
@@ -40,7 +38,6 @@ class LoadingView:View {
     private var columnar2AnimTop = columnarDefaultHeight
     private var columnar3AnimTop = columnarDefaultHeight
     private val columnarAnimSet = AnimatorSet()
-    private val dotAnim = ValueAnimator.ofInt(0,3)
 
     var duration = 800L
     var play_state = PLAY_STATE_PLAYING
@@ -57,10 +54,7 @@ class LoadingView:View {
         columnarTopColor = ContextCompat.getColor(context, R.color.white)
         columnarBottomColor = ContextCompat.getColor(context, R.color.color_D3E0FF)
         columnarWidth = context.resources.getDimensionPixelOffset(R.dimen.dp_10)
-        dotRadius = context.resources.getDimensionPixelOffset(R.dimen.dp_3)
-        dotRadius = context.resources.getDimensionPixelOffset(R.dimen.dp_3)
         columnarSpan = context.resources.getDimensionPixelOffset(R.dimen.dp_3)
-
         paint.isAntiAlias = true
         paint.isDither = true
     }
@@ -73,9 +67,7 @@ class LoadingView:View {
         setMeasuredDimension(diameter, diameter)
         columnarTop = (diameter * 0.24f)
         columnarBottom = (diameter * 0.76f)
-
         initColumnarAnim()
-        initDotAnim()
     }
 
     private fun initColumnarAnim(){
@@ -101,73 +93,15 @@ class LoadingView:View {
         columnarAnimSet.start()
     }
 
-    private fun initDotAnim(){
-        dotAnim.repeatMode = ValueAnimator.RESTART
-        dotAnim.repeatCount = ValueAnimator.INFINITE
-        dotAnim.addUpdateListener {
-//            dotType = it.animatedValue as Int
-            dotCount = it.animatedValue as Int
-            invalidate()
-        }
-        dotAnim.duration = duration + 1000
-        dotAnim.start()
-    }
+
 
     override fun onDraw(canvas: Canvas) {
         drawBg(canvas)
         if (play_state == PLAY_STATE_PLAYING){
             drawColumnar(canvas)
-        }else if (play_state == PLAY_STATE_WAIT){
-            drawDot(canvas)
         }
     }
-
-    private fun drawDot(canvas: Canvas) {
-        paint.color = columnarTopColor
-        val dotDiameter = dotRadius * 2
-        var left = diameter / 2 - dotDiameter/2 - dotDiameter - columnarSpan
-        var top = height / 2 - dotDiameter/2
-        var right = left + dotDiameter
-        val bottom = top + dotDiameter
-        for(i in 0..dotCount){
-//            left = getLeft(dotType,i)
-//            right = left + dotDiameter
-            rect.set(left.toFloat(), top.toFloat(), right.toFloat(), bottom.toFloat())
-            canvas.drawRoundRect(rect, 4f, 4f, paint)
-            left += (dotDiameter + columnarSpan)
-            right = left + dotDiameter
-        }
-    }
-
-    private fun getLeft(dotType: Int, index: Int):Int{
-        val dotDiameter = dotRadius * 2
-        var left = diameter / 2 - dotDiameter/2 - dotDiameter - columnarSpan
-        when(dotType){
-            0->{
-                return if (index == 0){
-                    left
-                } else {
-                    (left + (dotDiameter + columnarSpan))
-                }
-            }
-            1 -> {
-                return if (index == 0){
-                    (left + (dotDiameter + columnarSpan))
-                }else{
-                    left + ((dotDiameter + columnarSpan) * 2)
-                }
-            }
-            2 -> {
-                return if (index == 0){
-                    left + ((dotDiameter + columnarSpan) * 2)
-                }else{
-                    left
-                }
-            }
-        }
-        return 0
-    }
-
+    
     private fun drawColumnar(canvas: Canvas) {
         paint.color = columnarTopColor
         var left = diameter / 2 - columnarWidth/2 - columnarWidth - columnarSpan
@@ -216,19 +150,16 @@ class LoadingView:View {
     override fun onAttachedToWindow() {
         super.onAttachedToWindow()
         if (play_state == PLAY_STATE_PLAYING){
-            dotAnim.pause()
+
             columnarAnimSet.resume()
             columnarAnimSet.start()
         }else{
             columnarAnimSet.pause()
-            dotAnim.resume()
-            dotAnim.start()
         }
     }
 
     override fun onDetachedFromWindow() {
         super.onDetachedFromWindow()
-        dotAnim.pause()
         columnarAnimSet.pause()
     }
 
